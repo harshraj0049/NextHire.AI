@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Interview Environment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="..\static\css\envr.css">
+    <!-- CodeMirror core CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/codemirror@5.65.19/lib/codemirror.css">
+    <!-- Optional CodeMirror theme (e.g. cobalt for a dark theme) -->
+    <link rel="stylesheet" href="https://unpkg.com/codemirror@5.65.19/theme/base16-dark.css">
+
+    <!-- CodeMirror core JS -->
+    <script src="https://unpkg.com/codemirror@5.65.19/lib/codemirror.js"></script>
+    <!-- Language modes -->
+    <script src="https://unpkg.com/codemirror@5.65.19/mode/javascript/javascript.js"></script>
+    <script src="https://unpkg.com/codemirror@5.65.19/mode/python/python.js"></script>
+    <script src="https://unpkg.com/codemirror@5.65.19/mode/clike/clike.js"></script>       <!-- for C, C++, Java -->
+    <script src="https://unpkg.com/codemirror@5.65.19/mode/htmlmixed/htmlmixed.js"></script> <!-- for HTML (requires xml/css/js modes) -->
+    <script src="https://unpkg.com/codemirror@5.65.19/mode/xml/xml.js"></script>
+    <script src="https://unpkg.com/codemirror@5.65.19/mode/css/css.js"></script>
+
+
+
+    <style>
+        /* These styles are specifically for controlling the layout of the Ace Editor and its container */
+
+        body {
+            /* Ensure body takes full height and has no default margin/padding */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex; /* Make body a flex container to push nav/main */
+            flex-direction: column;
+        }
+
+        nav {
+            /* Your existing nav styles, ensure it has a defined height */
+            height: 5vh; /* This is already defined in interface copy.css, good */
+            flex-shrink: 0; /* Prevent nav from shrinking */
+        }
+
+        main {
+            flex-grow: 1; /* Make main take up all remaining vertical space */
+            display: flex; /* Make main a flex container */
+            flex-direction: column; /* Stack container if needed, but current setup is one container */
+            padding: 5px; /* Add padding here for overall main content */
+        }
+
+        .container {
+            flex-grow: 1; /* Allow container to take up all available space in main */
+            display: flex; /* This is the key: editor and avatar side-by-side */
+            width: 100%; /* Ensure container fills main's width */
+            gap: 10px;
+        }
+
+        /* The div that Ace.edit targets directly */
+        #editor { 
+            width: 100%; /* Takes half the width of its flex parent (.container) */
+            height: auto; /* Takes full height of its flex parent (.container) */
+            border-radius: 10px;
+            border: 3px solid white;
+            font-size: 20px;
+            /* No justify-content or align-items needed here, Ace will fill it */
+        }
+        #left {
+        width: 70%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        }
+        #questionBox {
+        min-height: 25%;
+        }
+        #function_bar {
+        padding: 5px 10px;
+        min-height: 5%;
+        }
+        .CodeMirror {
+        min-height: 67%;
+        font-size: 16px;
+        border-radius: 10px;
+        border: 1.75px solid white;
+        background-color: rgb(15, 15, 29);
+        }
+        .avatar {
+            width: 30%; /* Takes the other half of the width */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; 
+            /* margin-left: 5px; - Removed, using gap on .container instead */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media(max-width: 600px) {
+            .container {
+                flex-direction: column; /* Stack editor and avatars vertically */
+                gap: 5px; /* Adjust gap for vertical stacking */
+            }
+
+            #left, .avatar {
+                width: 100%; /* Both take full width when stacked */
+                height: 50vh;
+            }
+            #left{
+                height: auto;
+            }
+            #editor{
+                
+                min-height: 0px;
+            }
+            .CodeMirror {
+             height: 300px; /* You can set a fixed height or max-height for smaller screens if needed */
+             min-height: 200px; /* Ensure it has a minimum visible height */
+            flex-grow: 0; /* On small screens, we might not want it to grow infinitely */
+            flex-shrink: 1; /* Allow it to shrink if needed */
+            overflow: auto; /* Ensure it still scrolls */
+    }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li id="name_logo">NextHire.AI</li>
+            <li></li>
+            <li><button class="button" id="end_button"><a href="#">End</a></button></li>
+            <li id="stptimer">00:00</li>
+        </ul>
+    </nav>
+    <main>
+        <div class="container">
+            <div id="left">
+                <textarea id="questionBox" readonly>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi asperiores temporibus iure quas magni facere ipsam laboriosam, voluptatem molestiae libero nesciunt soluta rerum quia explicabo, velit delectus, accusantium illo iste!  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo quaerat iste inventore, et eius deserunt ipsa ad consequuntur explicabo similique adipisci accusantium nihil recusandae animi aliquam ipsum expedita necessitatibus culpa!  Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque recusandae facere modi dolore nobis quibusdam voluptatum adipisci quas illo, reiciendis qui ipsam sit. Tempore animi libero commodi deleniti neque maxime?</textarea>
+
+                <div id="function_bar">
+                    <div class="language-selector-wrapper">
+                    <label for="languageSelect">Language:</label>
+                    <select id="languageSelect">
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                        <option value="c_cpp">C/C++</option>
+                        <option value="html">HTML</option>
+                        </select>
+                    </div>
+                    <div class="button" id="run_btn"><a id="run" href="#">Evaluate</a></div>
+                </div>
+                <textarea id="editor">// Your code here</textarea>
+            </div> 
+            <div class="avatar" id="avatar_container">
+                <div class="ai">
+                    <div class="ai_avatar">
+                        <img id="ai_photo" src="../static/images/ai_avatar.png">
+                    </div>
+                </div> 
+                <div class="user" id="user_container">
+                    <div class="user_avatar" id="user_ava">
+                        <img id="user_photo" src="../static/images/user_avatar.png"> 
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div id="controls">
+            <button id="mic" class="ctr" title="Toggle Microphone"><span class="material-symbols-outlined">mic</span></button>
+            <button id="cam" class="ctr" title="Toggle webcam"><span class="material-symbols-outlined">videocam</span></button>
+            <button id="speaker" class="ctr" title="Toggle Speaker"><span class="material-symbols-outlined">sound_detection_loud_sound</span></button>
+        </div>
+    </main>
+    <script src="../static/js/controls.js"></script>
+    <script src="..\static\js\interface.js"></script> 
+
+    <script>
+  // Wait until DOM is loaded (if needed)
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get the textarea element
+    var textArea = document.getElementById("editor");
+    if (textArea) {
+      // Initialize CodeMirror on the textarea
+      var codeEditor = CodeMirror.fromTextArea(textArea, {
+        lineNumbers: true,
+        theme: "base16-dark",         // match Ace’s cobalt theme (optional)
+        mode: "python",         // default mode (can be changed via dropdown)
+        indentUnit: 4,
+        tabSize: 4,
+        lineWrapping: true
+      });
+
+      // (Optional) Set an initial value or cursor position
+      codeEditor.setValue("Your code here!!");
+      codeEditor.focus();
+
+      // Handle language selection changes (if you have a dropdown)
+      var languageSelect = document.getElementById("languageSelect");
+      if (languageSelect) {
+        languageSelect.addEventListener("change", function(event) {
+          var lang = event.target.value;
+          var mode = lang;
+          // Map select values to CodeMirror mode names if needed
+          if (lang === "c_cpp")       mode = "text/x-c++src";
+          else if (lang === "java")   mode = "text/x-java";
+          else if (lang === "html")   mode = "text/html";
+          // For "javascript" and "python", the mode string matches
+          codeEditor.setOption("mode", mode);
+        });
+      }
+    }
+  });
+</script>
+</body>
+</html>

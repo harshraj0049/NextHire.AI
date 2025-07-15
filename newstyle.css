@@ -1,0 +1,200 @@
+/* ---------- Base Reset ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  background-image: url("images/newback.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 10%;
+  position: relative;
+}
+
+/* ---------- Navbar ---------- */
+nav {
+  background-color: rgba(15, 15, 29, 0.225);
+  box-shadow: 3px 3px 5px rgba(15, 15, 29, 0.225);
+  font-weight: 500;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+nav li {
+  height: 70px;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 30px;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+  background-color: rgba(109, 109, 152, 0.225);
+}
+
+nav li:first-child {
+  margin-right: auto;
+}
+
+nav li span {
+  cursor: pointer;
+}
+
+/* ---------- Sidebar (Mobile Nav) ---------- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  z-index: 999;
+  background-color: rgba(109, 109, 152, 0.225);
+  backdrop-filter: blur(10px);
+  box-shadow: -10px 0 10px rgba(109, 109, 152, 0.225);
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.sidebar .close-btn {
+  align-self: flex-end;
+  padding: 10px;
+}
+
+.sidebar li,
+.sidebar a {
+  width: 100%;
+}
+
+/* ---------- Responsive Toggle Button ---------- */
+.menubutton {
+  display: none;
+}
+
+/* ---------- Hero Section Container ---------- */
+.container {
+  width: 60%;
+  height: 85vh;
+  
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  padding: 25px;
+}
+
+/* ---------- Hero Content ---------- */
+.hero_sec {
+  color: white;
+  width: 100%;
+  font-size: 1.3em;
+}
+
+.trending {
+  color: #4EA8DE;
+  padding: 5px 0;
+  text-align: left;
+}
+
+.tagline {
+  padding: 5px 0;
+  font-size: 2em;
+  font-weight: 600;
+  text-align: left;
+}
+
+.main_info {
+  text-align: left;
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+/* ---------- Buttons ---------- */
+.primary-btn {
+  background-color: #4EA8DE;
+  color: white;
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background-color: rgba(15, 15, 29, 0.225);
+  color: white;
+  border: 2px solid #4EA8DE;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ---------- Media Queries ---------- */
+@media (max-width: 1024px) {
+  .container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 620px) {
+  .hideonmobile {
+    display: none;
+  }
+
+  .menubutton {
+    display: block;
+  }
+
+  .container {
+    width: 90%;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    height: auto;
+    position: relative;
+    top: 0;
+    transform: none;
+    margin: 80px auto;
+  }
+
+  .hero_sec {
+    width: 100%;
+    text-align: center;
+  }
+
+  .tagline {
+    font-size: 1.5em;
+  }
+
+  .main_info {
+    font-size: 0.95em;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    margin-top: 10px;
+    width: 80%;
+  }
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Interview Environment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="interface copy.css">
+   <style>
+        /* These styles override/complement interface copy.css for the editor */
+        .container {
+            /* Existing styles: height: 95vh; display: flex; */
+            height: calc(100vh - 5vh); /* Adjusted to fill remaining height below nav */
+            display: flex;
+            padding: 5px; /* Add some padding to the container for spacing the children */
+        }
+
+        #editor { /* Target the div directly for Ace */
+            width: 50%; /* Takes half the width of its flex parent (.container) */
+            height: 100%; /* Takes full height of its flex parent (.container) */
+            border-radius: 10px;
+            border: 3px solid white;
+            font-size: 20px;
+            /* No justify-content or align-items needed here, Ace will fill it */
+        }
+
+        .avatar {
+            width: 50%; /* Takes the other half of the width */
+            /* Existing styles for flex direction, centering, etc. are fine */
+            margin-left: 5px; /* Add some margin to separate it from the editor */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li id="name_logo">NextHire.AI</li>
+            <li><button class="button" id="code_button"><a href="#">Code</a></button></li>
+            <li><button class="button" id="end_button"><a href="#">End</a></button></li>
+            <li id="stptimer">00:00</li>
+        </ul>
+    </nav>
+    <main>
+        <div class="container">
+            <div class="editor-container">
+                <div id="aceEditor" class="editor">IDE WILL BE HERE</div>
+            </div>
+            <div class="avatar">
+                <div class="ai">
+                    <div class="ai_avatar">
+                    <img  id="ai_photo" src="images\ai_avatar.png">
+                    </div>
+                </div> 
+                <div class="user">
+                    <div class="user_avatar">
+                    <img  id="user_photo" src="images\user_avatar.png"> 
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </main>
+    <script src="interface.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.5.3/ace.js"></script>
+    <script>
+        // Ensure the div with ID 'aceEditor' exists before trying to initialize Ace
+        let editorElement = document.getElementById("aceEditor");
+
+        if (editorElement) {
+            let editor = ace.edit(editorElement, { // Use ace.edit directly if ace.js is loaded
+                theme: "ace/theme/cobalt",
+                mode: "ace/mode/javascript",
+                // To make it minimal and mimic interview stress:
+                enableBasicAutocompletion: false,
+                enableLiveAutocompletion: false,
+                enableSnippets: false,
+                showPrintMargin: false, // Hides the vertical line at 80 characters
+                highlightActiveLine: false, // No active line highlighting
+                showGutter: true, // Show line numbers
+                tabSize: 4, // Set tab size
+                useSoftTabs: true // Use spaces for tabs
+            });
+
+            // Set initial content if needed
+            editor.setValue("function solve() {\n  // Your code here\n}");
+            editor.gotoLine(3); // Place cursor on the line after the function declaration
+
+            // Optional: Adjust editor dimensions to fill its container
+            editor.setOptions({
+                minLines: 20, // Minimum number of lines visible
+                maxLines: Infinity // Allow editor to grow with content
+            });
+
+            // Adjust size when the window is resized
+            window.addEventListener('resize', () => {
+                editor.resize();
+            });
+
+        } else {
+            console.error("Editor element with ID 'aceEditor' not found.");
+        }
+    </script>
+    
+
+    
+</body>
+</html>

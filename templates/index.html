@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextHire.AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="..\static\css\style.css">
+</head>
+<body>
+    <nav>
+        <ul class="sidebar">
+            <li class="close-btn" onclick="hidesidebar()"><a href="#"><span class="material-symbols-outlined">close</span></a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">About us</a></li>
+        </ul>
+        <ul>
+            <li><a href="#" ><b>NextHire.AI</b></a></li>
+            <li class="hideonmobile"><a href="#" >Home</a></li>
+            <li class="hideonmobile"><a href="#" >Features</a></li>
+            <li class="hideonmobile"><a href="#" >Pricing</a></li>
+            <li class="hideonmobile"><a href="#" >About us</a></li>
+            <li class="menubutton" onclick="showsidebar()"><a><span class="material-symbols-outlined">menu</span></a></li>
+        </ul>
+
+    </nav>
+    <div class="container">
+        <div class="hero_sec">
+            <p class="trending">#1 Trending AI Interview Tool for Students & Job Seekers</p>
+            <h1 class="tagline">Accelerate Your Career with <span style="color:#4EA8DE;">NextHire.AI</span></h1>
+            <p class="main_info">
+            Your intelligent AI interview assistant - built to simulate real-world technical and HR interviews. 
+            Practice confidently, get instant feedback, and be interview-ready, anytime, anywhere.
+            </p>
+            <div class="buttons">
+            <button class="primary-btn"><a href="{{ url_for('auth') }}">Get Started</a></button>
+            <button class="secondary-btn">Watch Demo</button>
+            </div>
+        </div>
+        <div class="image_avatar"></div>
+    </div>
+
+    <script>
+        function showsidebar(){
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.style.display ='flex';
+        }
+        function hidesidebar(){
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.style.display ='none';
+        }
+    </script>
+    
+</body>
+</html>

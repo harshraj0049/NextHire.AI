@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #myvideo{
+            height: 400px;
+            width: 400px;
+            background-color: aqua;
+            object-fit: cover;
+
+        }
+        #mydiv{
+            background-color: brown;
+            height: 300px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="mydiv"></div>
+        <button id="mic_btn">MIC</button>
+        <button id="cam_btn">CAM</button>
+    </div>
+    <script src="../js/controls.js"></script>
+</body>
+</html>
