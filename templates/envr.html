@@ -137,7 +137,7 @@
     <main>
         <div class="container">
             <div id="left">
-                <textarea id="questionBox" readonly>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi asperiores temporibus iure quas magni facere ipsam laboriosam, voluptatem molestiae libero nesciunt soluta rerum quia explicabo, velit delectus, accusantium illo iste!  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo quaerat iste inventore, et eius deserunt ipsa ad consequuntur explicabo similique adipisci accusantium nihil recusandae animi aliquam ipsum expedita necessitatibus culpa!  Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque recusandae facere modi dolore nobis quibusdam voluptatum adipisci quas illo, reiciendis qui ipsam sit. Tempore animi libero commodi deleniti neque maxime?</textarea>
+                <textarea id="questionBox" readonly></textarea>
 
                 <div id="function_bar">
                     <div class="language-selector-wrapper">
@@ -150,7 +150,7 @@
                         <option value="html">HTML</option>
                         </select>
                     </div>
-                    <div class="button" id="run_btn"><a id="run" href="#">Evaluate</a></div>
+                    <div class="button" id="eval_btn"><a id="run" href="#">Evaluate</a></div>
                 </div>
                 <textarea id="editor">// Your code here</textarea>
             </div> 
@@ -177,13 +177,14 @@
     <script src="..\static\js\interface.js"></script> 
 
     <script>
+    let codeEditor;
   // Wait until DOM is loaded (if needed)
   document.addEventListener("DOMContentLoaded", function() {
     // Get the textarea element
     var textArea = document.getElementById("editor");
     if (textArea) {
       // Initialize CodeMirror on the textarea
-      var codeEditor = CodeMirror.fromTextArea(textArea, {
+        codeEditor = CodeMirror.fromTextArea(textArea, {
         lineNumbers: true,
         theme: "base16-dark",         // match Ace’s cobalt theme (optional)
         mode: "python",         // default mode (can be changed via dropdown)

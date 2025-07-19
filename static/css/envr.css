@@ -141,7 +141,7 @@ nav ul a{
 #function_bar{
     display: flex;
 }
-#run_btn{
+#eval_btn{
     background-color: rgb(58, 166, 0);
     text-decoration: none;
     border-radius: 5px;

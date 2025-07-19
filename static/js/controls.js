@@ -50,21 +50,75 @@ camBtn.addEventListener('click', async ()=>{
     }  
 })
 
-micBtn.addEventListener('click' ,async ()=>{
-    if(!micstream){
-        try{
-            micstream = await navigator.mediaDevices.getUserMedia({audio:true});
-            micBtn.style.backgroundColor="red";
-            micstream.getAudioTracks()[0].enabled =true; 
-        }
-        catch(error){
-            alert(`microphone access error: ${error}`);
+let recognition
+
+micBtn.addEventListener('click', async () => {
+    if (!micstream) {
+        try {
+            micstream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            micBtn.style.backgroundColor = "red";
+            micstream.getAudioTracks()[0].enabled = true;
+
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-US';
+            recognition.continuous = true;
+            recognition.interimResults = false;
+            recognition.start();
+
+            recognition.onresult = function (event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('questionBox').value += `YOU : ${transcript}\n\n`;
+                sendMessage();
+            };
+
+            recognition.onerror = function (event) {
+                console.error("Speech recognition error:", event.error);
+            };
+        } catch (error) {
+            alert(`Microphone access error: ${error}`);
             console.error(error);
         }
+    } else {
+        micstream.getTracks().forEach(track => track.stop());
+        micstream = null;
+        micBtn.style.backgroundColor = "black";
+        recognition.stop();
     }
-    else{
-        micstream.getTracks().forEach(track=>track.stop());
-        micstream=null;
-        micBtn.style.backgroundColor="black";
-    }
+});
+
+
+async function sendMessage(){
+    const message=document.getElementById('questionBox').value;
+    const response=await fetch('/interview/environment',{
+        method:'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+    });
+    const data = await response.json();
+    document.getElementById('questionBox').value += `BOT : ${data.reply}\n\n`;
+
+    // Speak the reply
+    speakReply(data.reply);
+}
+
+function speakReply(text) {
+    const speech = new SpeechSynthesisUtterance();
+    speech.text = text;
+    speech.lang = 'en-US';
+    speech.pitch = 1;
+    speech.rate = 1;
+    window.speechSynthesis.speak(speech);
+  }
+
+
+const evaluateBtn=document.getElementById('eval_btn').addEventListener('click',async ()=>{
+    const code = codeEditor.getValue();
+    response=await fetch('/interview/evaluate',{
+        method:'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })});
+
+    const data = await response.json();
+    document.getElementById('questionBox').value += `BOT (Evaluation) : ${data.reply}\n\n`;
+    speakReply(data.reply);
 })
