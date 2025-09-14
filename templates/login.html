@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>title</title>
+    <title>Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link rel="stylesheet" href="..\static\css\auth.css">
@@ -18,22 +18,15 @@
         <div id="side_img"><img id="myimg" src="../static/images/side_img.png"></div>
         <div class="form_container">
             <div class="auth_form">
-                <p id="my_para">Create an account</p>
-                <form method="POST" action="/signin"  enctype="multipart/form-data">
-                    <label class="my_label" for="name">Name</label>
-                    <input type="text" name="name" placeholder="Enter your name" id="name" required>
-
-                    <label class="my_label" for="phone">Mobile No</label>
-                    <input type="tel" name="phone" id="phone" placeholder="91-1234567890" pattern="[0-9]{2}-[0-9]{10}" required>
-
+                <p id="my_para">Welcome back! </p>
+                <form method="POST" action="/login"  enctype="multipart/form-data">
                     <label class="my_label" for="email">Email</label>
                     <input type="email" name="email" id="email" placeholder="Enter your email id" required>
 
                     <label class="my_label" for="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Create a strong password" required>
+                    <input type="password" name="password" id="password" placeholder="Enter your password" required>
 
-                    <button type="submit" id="submit">Get Started</button>
-                    <p class="login">Already have an account? <a class="login" href="{{ url_for('login') }}">Log in </a></p>
+                    <button type="submit" id="submit">Log in</button>
                 </form>
 
             </div>

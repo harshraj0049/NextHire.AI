@@ -65,3 +65,10 @@ form input{
     height: 45px;
     text-align: center;
 }
+.login{
+    color:white;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    margin-top: 20px;
+    text-decoration: none;
+}

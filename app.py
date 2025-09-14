@@ -1,15 +1,106 @@
-from flask import Flask,render_template,request,session,jsonify
+from flask import Flask,render_template,request,session,jsonify,flash,redirect,url_for
 import os
 from dotenv import load_dotenv
 import uuid
 import google.generativeai as genai
+from flask_sqlalchemy import SQLAlchemy
+import psycopg2
+from werkzeug.security import generate_password_hash,check_password_hash
 
 app=Flask(__name__)
-app.secret_key='mu_secret_key'#change this to some strong key in production phase
-
 load_dotenv()
 gemini_api_key=os.getenv("GEMINI_API_KEY")
-model=genai.GenerativeModel("gemini-1.5-flash")
+model=genai.GenerativeModel("gemini-2.5-flash")
+
+app.secret_key='mu_secret_key'#change this to some strong key in production phase
+
+
+#database connection 
+def init_db():
+    conn=psycopg2.connect(
+                        host="localhost",
+                        database="demo_learn",
+                        user="postgres",
+                        password=os.getenv("POSTGRES_PASS"),
+                        port="5432"
+                    
+    )
+    #creating a cursor
+    cur=conn.cursor()
+    cur.execute('''CREATE TABLE IF NOT EXISTS signin_users (
+            id SERIAL PRIMARY KEY,
+            username VARCHAR(100) UNIQUE NOT NULL,
+            email VARCHAR(100) UNIQUE NOT NULL,
+            phone VARCHAR(15) UNIQUE NOT NULL,
+            password_hash VARCHAR(200) NOT NULL   
+        );''')
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+
+@app.route('/signin', methods=['GET','POST'])
+def signin():
+    if request.method=='POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone=request.form.get('phone')
+        password=request.form.get('password')
+
+        password_hash=generate_password_hash(password)
+
+        insert_query=''' INSERT INTO signin_users (username,email,password_hash,phone) VALUES(%s,%s,%s,%s)'''
+
+        try:
+            conn=psycopg2.connect(
+                    host="localhost",
+                    database="demo_learn",
+                    user="postgres",
+                    password=os.getenv("POSTGRES_PASS"),
+                    port="5432")
+            cur=conn.cursor()  
+            cur.execute(insert_query,(name,email,password_hash,phone))
+
+            conn.commit()
+
+            cur.close()
+            conn.close()
+            return render_template('envr.html')
+        except Exception as e:
+            return f"An error occurred: {e}"
+        
+    return render_template('envr.html')
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method=='POST':
+        email = request.form.get('email')
+        password=request.form.get('password')
+
+        conn=psycopg2.connect(
+                    host="localhost",
+                    database="demo_learn",
+                    user="postgres",
+                    password=os.getenv("POSTGRES_PASS"),
+                    port="5432")
+        cur=conn.cursor()
+        cur.execute("SELECT id, username, password_hash FROM signin_users WHERE email = %s",
+                    (email,))
+        user = cur.fetchone()#returns a tuple with one row that is selected
+
+        if user and check_password_hash(user[2], password):
+            session['user_id'] = user[0]       # store id in session
+            session['username'] = user[1]
+            flash('Logged in successfully!', 'success')
+            return redirect(url_for('envr.html'))  # or any page you want
+        else:
+            flash('Invalid email or password', 'error')
+
+    return render_template('envr.html')
+
+
 
 chat_session={}
 
@@ -93,5 +184,6 @@ def evaluate_code():
 
 
 if __name__=='__main__':
+    init_db()
     app.run(debug=True)
 
